@@ -21,6 +21,7 @@ for folder in "${folders[@]}"; do
     for file in "$dotfiles"/"$folder"/*; do
         ln -s "$file" "$HOME"/."$(basename "$file")"
     done
+done
 
 # Install Homebrew
 echo "checking if Homebrew is installed..."
