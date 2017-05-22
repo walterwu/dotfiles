@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Ask for the administrator password upfront
+sudo -v
+
+# Update existing `sudo` time stamp until this script has finished
+# https://gist.github.com/cowboy/3118588
+while true; do
+  sudo -n true
+  sleep 60
+  kill -0 "$$" || exit
+done &> /dev/null &
+
+
 dotfiles="$(cd "$scripts"/.. && pwd)"
 
 #Symlink all dotfiles in list into ~/dotfiles
@@ -10,19 +22,7 @@ for folder in "${folders[@]}"; do
         ln -s "$file" "$HOME"/."$(basename "$file")"
     done
 
-# Symlink Oh My Zsh to ~/dotfiles/zsh/oh-my-zsh
-ln -s "$dotfiles"/zsh/oh-my-zsh "$HOME"/.oh-my-zsh
-
-# Symlink zsh config files into ~.
-for file in "$dotfiles"/zsh/*; do
-    if [[ -f "$file" ]]; then
-        rm -f "$HOME"/."$(basename "$file")"
-        ln -s "$file" "$HOME"/."$(basename "$file")"
-    fi
-done
-
 # Install Homebrew
-# Check if Homebrew is installed
 echo "checking if Homebrew is installed..."
 which -s brew
 if [[ $? != 0 ]] ; then
@@ -37,7 +37,7 @@ brew bundle --global
 echo "Homebrew installation complete."
 
 # Install zsh and Oh My Zsh
-# Check if zsh is installed
+echo "checking if zsh is installed..."
 if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     # Install Oh My Zsh if it isn't already present
     if [[ ! -d $dir/oh-my-zsh/ ]]; then
@@ -47,10 +47,18 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
       chsh -s $(which zsh)
     fi
-  else
-    # If zsh isn't installed, tell user to install zsh
-      echo "We'll install zsh, then re-run this script!"
-      brew install zsh
-      exit
-    fi
-  fi
+else
+  # If zsh isn't installed, tell user to install zsh
+  echo "We'll install zsh, then re-run this script!"
+  brew install zsh
+  exit
+fi
+
+# Symlink Oh My Zsh to ~/dotfiles/zsh/oh-my-zsh
+ln -s "$dotfiles"/zsh/oh-my-zsh "$HOME"/.oh-my-zsh
+
+# Symlink .zsh config file to ~/dotfiles/zsh/zshrc.
+ln -s "$dotfiles"/zsh/zshrc "$HOME"/.zshrc
+
+# Reload zsh settings
+source ~/.zshrc
