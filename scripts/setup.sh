@@ -61,5 +61,11 @@ ln -s "$dotfiles"/zsh/oh-my-zsh "$HOME"/.oh-my-zsh
 # Symlink .zsh config file to ~/dotfiles/zsh/zshrc.
 ln -s "$dotfiles"/zsh/zshrc "$HOME"/.zshrc
 
+# Install the Solarized Dark theme for iTerm
+open "${HOME}/dotfiles/iterm/themes/Atom.itermcolors"
+
+# Don’t display the annoying prompt when quitting iTerm
+defaults write com.googlecode.iterm2 PromptOnQuit -bool false
+
 # Reload zsh settings
 source ~/.zshrc
