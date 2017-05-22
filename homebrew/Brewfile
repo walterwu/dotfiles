@@ -1,0 +1,18 @@
+tap "caskroom/cask"
+
+cask_args appdir: "/Applications"
+
+# Brews
+brew "coreutils"
+brew "diff-so-fancy"
+brew "git"
+brew "git-lfs"
+brew "python"
+brew "python3"
+brew "tmux"
+brew "wine"
+brew "zsh"
+
+# Casks
+cask "java"
+cask "xquartz"
