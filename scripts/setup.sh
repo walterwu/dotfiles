@@ -11,7 +11,7 @@ while true; do
   kill -0 "$$" || exit
 done &> /dev/null &
 
-
+scripts="$(dirname "$BASH_SOURCE")"
 dotfiles="$(cd "$scripts"/.. && pwd)"
 
 #Symlink all dotfiles in list into ~/dotfiles
