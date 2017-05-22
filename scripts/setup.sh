@@ -16,7 +16,7 @@ dotfiles="$(cd "$scripts"/.. && pwd)"
 
 #Symlink all dotfiles in list into ~/dotfiles
 echo "Symlinking files..."
-dotdirs=(vim homebrew)
+folders=(vim homebrew)
 for folder in "${folders[@]}"; do
     for file in "$dotfiles"/"$folder"/*; do
         ln -s "$file" "$HOME"/."$(basename "$file")"
