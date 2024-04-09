@@ -27,7 +27,10 @@ done
 echo "checking if Homebrew is installed..."
 which -s brew
 if [[ $? != 0 ]] ; then
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    # TODO: fix so this works
+    (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/walterwu/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 else
     echo "Homebrew already installed."
     brew update
@@ -68,4 +71,5 @@ open "${HOME}/dotfiles/iterm/themes/Atom.itermcolors"
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 # Reload zsh settings
+# TODO: fix so this works from bin/bash
 source ~/.zshrc
